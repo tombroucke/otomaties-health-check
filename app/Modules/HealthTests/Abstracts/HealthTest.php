@@ -55,7 +55,6 @@ abstract class HealthTest
     {
         $constant = 'OTOMATIES_HEALTH_CHECK_' . strtoupper(Str::snake($this->name())) . '_ACTIVE';
         $constantValue = $this->findVariable($constant);
-        ray($constant);
         if ($constantValue !== null) {
             return filter_var($constantValue, FILTER_VALIDATE_BOOLEAN);
         }

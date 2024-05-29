@@ -67,8 +67,8 @@ class Loader
         $this->filters->each(function ($filter) {
             add_filter(
                 $filter['hook'],
-                array( $filter['component'],
-                $filter['callback'] ),
+                [$filter['component'],
+                $filter['callback']],
                 $filter['priority'],
                 $filter['accepted_args']
             );
@@ -77,8 +77,8 @@ class Loader
         $this->actions->each(function ($action) {
             add_action(
                 $action['hook'],
-                array( $action['component'],
-                $action['callback'] ),
+                [$action['component'],
+                $action['callback']],
                 $action['priority'],
                 $action['accepted_args']
             );
