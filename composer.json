@@ -1,0 +1,19 @@
+{
+    "name": "tombroucke/otomaties-health-check",
+    "type": "wordpress-muplugin",
+    "autoload": {
+        "psr-4": {
+            "Otomaties\\HealthCheck\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tom Broucke",
+            "email": "tom@tombroucke.be"
+        }
+    ],
+    "require": {
+        "illuminate/container": "*",
+        "illuminate/support": "*"
+    }
+}
