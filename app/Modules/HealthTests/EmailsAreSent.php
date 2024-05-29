@@ -25,9 +25,9 @@ class EmailsAreSent extends Abstracts\HealthTest implements Contracts\HealthTest
         $subject = sprintf(__('Health check: Test email from %s', 'otomaties-health-check'), get_bloginfo('name'));
         $message = __('Hi,', 'otomaties-health-check') . "\n\n";
         $message .= __('This is a test email to check if the website can send emails.', 'otomaties-health-check') . "\n\n";
-        $current_user = wp_get_current_user();
-        $message .= sprintf(__('This health check was triggered from %s by %s.', 'otomaties-health-check'), get_bloginfo('url'), $current_user ? $current_user->user_login : __('an unknown user', 'otomaties-health-check')) . "\n\n";
-        $message = __('Kind regards', 'otomaties-health-check');
+        $currentUser = wp_get_current_user();
+        $message .= sprintf(__('This health check was triggered from %s by %s.', 'otomaties-health-check'), get_bloginfo('url'), $currentUser ? $currentUser->user_login : __('an unknown user', 'otomaties-health-check')) . "\n\n";
+        $message .= __('Kind regards', 'otomaties-health-check');
         return wp_mail($to, $subject, $message);    
     }
 
