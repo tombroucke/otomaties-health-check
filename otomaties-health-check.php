@@ -1,6 +1,7 @@
 <?php
 
 use Otomaties\HealthCheck\Plugin;
+use Otomaties\HealthCheck\Helpers\View;
 use Otomaties\HealthCheck\Helpers\Config;
 use Otomaties\HealthCheck\Helpers\Loader;
 
@@ -49,8 +50,8 @@ add_action('otomaties_health_check_functionality', function ($plugin) {
     $plugin->bind(Loader::class, function ($plugin) {
         return $plugin->getLoader();
     });
-    $plugin->bind('env', function () {
-        return defined('WP_ENV') && is_string(constant('WP_ENV')) ? constant('WP_ENV') : 'production';
+    $plugin->bind(View::class, function ($plugin) {
+        return new View($plugin->config('paths.views'));
     });
 }, 10);
 

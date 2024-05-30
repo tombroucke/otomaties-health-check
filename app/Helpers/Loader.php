@@ -4,8 +4,6 @@ namespace Otomaties\HealthCheck\Helpers;
 
 use Illuminate\Support\Collection;
 
-
-
 class Loader
 {
     protected $actions;

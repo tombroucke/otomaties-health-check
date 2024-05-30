@@ -5,4 +5,5 @@ return [
     'app' => dirname(__FILE__, 2) . '/app',
     'languages' => dirname(__FILE__, 2) . '/resources/languages',
     'resources' => dirname(__FILE__, 2) . '/resources',
+    'views' => dirname(__FILE__, 2) . '/resources/views',
 ];

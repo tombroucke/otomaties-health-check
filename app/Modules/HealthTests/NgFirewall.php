@@ -2,22 +2,13 @@
 
 namespace Otomaties\HealthCheck\Modules\HealthTests;
 
+use Otomaties\HealthCheck\Enums\HealthCheckCategory;
+
 class NgFirewall extends Abstracts\HealthTest implements Contracts\HealthTest
 {
-    public function name() : string
-    {
-        return 'ng_firewall';
-    }
+    protected string $category = HealthCheckCategory::SECURITY;
 
-    public function category() : string
-    {
-        return __('Security', 'otomaties-health-check');
-    }
-
-    public function type() : string
-    {
-        return 'async';
-    }
+    protected string $type = 'async';
 
     public function passes() : bool
     {
@@ -26,7 +17,7 @@ class NgFirewall extends Abstracts\HealthTest implements Contracts\HealthTest
         ])->reject(function ($url) {
             $response = wp_remote_get(
                 home_url($url),
-                ['sslverify' => otomatiesHealthCheck()->make('env') === 'production',]
+                ['sslverify' => otomatiesHealthCheck()->config('app.env') === 'production',]
             );
             return wp_remote_retrieve_response_code($response) !== 200;
         });
@@ -55,7 +46,7 @@ class NgFirewall extends Abstracts\HealthTest implements Contracts\HealthTest
             'description' => sprintf(
                 '<p>%s</p>',
                 sprintf(
-                    __('The nG Firewall is not active on this website. Visit %s for more information', 'otomaties-health-check'),
+                    __('The nG Firewall is not active on this website. Visit %s for more information', 'otomaties-health-check'),  // phpcs:ignore Generic.Files.LineLength.TooLong
                     '<a href="https://perishablepress.com/ng-firewall/" target="_blank">nG Firewall</a>'
                 )
             )

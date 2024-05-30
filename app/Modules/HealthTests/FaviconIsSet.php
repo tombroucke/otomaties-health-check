@@ -2,22 +2,11 @@
 
 namespace Otomaties\HealthCheck\Modules\HealthTests;
 
+use Otomaties\HealthCheck\Enums\HealthCheckCategory;
+
 class FaviconIsSet extends Abstracts\HealthTest implements Contracts\HealthTest
 {
-    public function name() : string
-    {
-        return 'favicon_is_set';
-    }
-
-    public function category() : string
-    {
-        return __('Appearance', 'otomaties-health-check');
-    }
-
-    public function type() : string
-    {
-        return 'direct';
-    }
+    protected string $category = HealthCheckCategory::APPEARANCE;
 
     public function passes() : bool
     {
@@ -43,8 +32,12 @@ class FaviconIsSet extends Abstracts\HealthTest implements Contracts\HealthTest
             'description' => sprintf(
                 '<p>%s</p>',
                 sprintf(
-                    __('The favicon is not set on this website. Visit the %s to set your favicon', 'otomaties-health-check'),
-                    '<a href="' . admin_url('customize.php') . '" target="_blank">' . __('Customizer', 'otomaties-health-check') . '</a>'
+                    __('The favicon is not set on this website. Visit the %s to set your favicon', 'otomaties-health-check'), // phpcs:ignore Generic.Files.LineLength.TooLong
+                    sprintf(
+                        '<a href="%s" target="_blank">%s</a>',
+                        admin_url('customize.php'),
+                        __('Customizer', 'otomaties-health-check')
+                    )
                 )
             )
         ]);

@@ -13,7 +13,17 @@
         }
     ],
     "require": {
+        "php": ">=8.0",
         "illuminate/container": "*",
         "illuminate/support": "*"
+    },
+    "scripts": {
+        "test": [
+            "phpcs --standard=PSR2 app"
+        ]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.1",
+        "squizlabs/php_codesniffer": "^3.10"
     }
 }

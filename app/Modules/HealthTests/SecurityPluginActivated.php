@@ -2,26 +2,18 @@
 
 namespace Otomaties\HealthCheck\Modules\HealthTests;
 
+use Otomaties\HealthCheck\Enums\HealthCheckCategory;
+
 class SecurityPluginActivated extends Abstracts\HealthTest implements Contracts\HealthTest
 {
-    public function name() : string
-    {
-        return 'wordfence_activated';
-    }
-
-    public function category() : string
-    {
-        return __('Security', 'otomaties-health-check');
-    }
-
-    public function type() : string
-    {
-        return 'direct';
-    }
+    protected string $category = HealthCheckCategory::SECURITY;
 
     public function passes() : bool
     {
-        return is_plugin_active('sucuri-scanner/sucuri.php') || is_plugin_active('wordfence/wordfence.php') || is_plugin_active('wp-defender/wp-defender.php') || is_plugin_active('defender-security/wp-defender.php');
+        return is_plugin_active('sucuri-scanner/sucuri.php')
+            || is_plugin_active('wordfence/wordfence.php')
+            || is_plugin_active('wp-defender/wp-defender.php')
+            || is_plugin_active('defender-security/wp-defender.php');
     }
 
     public function passedResponse() : array
@@ -43,11 +35,15 @@ class SecurityPluginActivated extends Abstracts\HealthTest implements Contracts\
             'description' => sprintf(
                 '<p>%s</p>',
                 sprintf(
-                    __('Wordfence is not active on this website. Visit %s for more information', 'otomaties-health-check'),
+                    __('Wordfence is not active on this website. Visit %s for more information', 'otomaties-health-check'), // phpcs:ignore Generic.Files.LineLength.TooLong
                     '<a href="https://www.wordfence.com/" target="_blank">Wordfence</a>'
                 )
             ),
-            'actions' => sprintf('<a href="%s" target="_blank">%s</a>', admin_url('plugins.php'), __('Activate Wordfence', 'otomaties-health-check'))
+            'actions' => sprintf(
+                '<a href="%s" target="_blank">%s</a>',
+                admin_url('plugins.php'),
+                __('Activate Wordfence', 'otomaties-health-check')
+            )
         ]);
     }
 }

@@ -6,9 +6,9 @@ interface HealthTest
 {
     public function name() : string;
 
-    public function category() : string;
-
     public function type() : string;
+
+    public function category() : string;
 
     public function passes() : bool;
 

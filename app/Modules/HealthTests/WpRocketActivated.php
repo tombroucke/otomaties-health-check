@@ -2,22 +2,11 @@
 
 namespace Otomaties\HealthCheck\Modules\HealthTests;
 
+use Otomaties\HealthCheck\Enums\HealthCheckCategory;
+
 class WpRocketActivated extends Abstracts\HealthTest implements Contracts\HealthTest
 {
-    public function name() : string
-    {
-        return 'wp_rocket_activated';
-    }
-
-    public function category() : string
-    {
-        return __('Performance', 'otomaties-health-check');
-    }
-
-    public function type() : string
-    {
-        return 'direct';
-    }
+    protected string $category = HealthCheckCategory::PERFORMANCE;
 
     public function passes() : bool
     {
@@ -42,11 +31,15 @@ class WpRocketActivated extends Abstracts\HealthTest implements Contracts\Health
             'description' => sprintf(
                 '<p>%s</p>',
                 sprintf(
-                    __('WP Rocket is not active on this website. Visit %s for more information', 'otomaties-health-check'),
+                    __('WP Rocket is not active on this website. Visit %s for more information', 'otomaties-health-check'), // phpcs:ignore Generic.Files.LineLength.TooLong
                     '<a href="https://wp-rocket.me/" target="_blank">WP Rocket</a>'
                 )
             ),
-            'actions' => sprintf('<a href="%s" target="_blank">%s</a>', admin_url('plugins.php'), __('Activate WP Rocket', 'otomaties-health-check'))
+            'actions' => sprintf(
+                '<a href="%s" target="_blank">%s</a>',
+                admin_url('plugins.php'),
+                __('Activate WP Rocket', 'otomaties-health-check')
+            )
         ]);
     }
 }

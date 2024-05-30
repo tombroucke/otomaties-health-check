@@ -3,12 +3,26 @@
 namespace Otomaties\HealthCheck\Modules\HealthTests\Abstracts;
 
 use Illuminate\Support\Str;
+use Otomaties\HealthCheck\Enums\HealthCheckCategory;
 
 abstract class HealthTest
 {
-    protected array $defaultResponse = [];
+    protected ?string $name = null;
 
-    public function __construct() {
+    protected string $type = 'direct';
+
+    protected array $defaultResponse = [];
+    
+    protected string $category;
+
+    abstract public function passes() : bool;
+
+    abstract public function passedResponse() : array;
+
+    abstract public function failedResponse() : array;
+
+    public function __construct()
+    {
         $this->defaultResponse = [
             'status' => 'good',
             'badge' => [
@@ -19,15 +33,26 @@ abstract class HealthTest
         ];
     }
 
-    abstract public function name() : string;
+    public function name() : string
+    {
+        if ($this->name === null) {
+            return Str::snake(class_basename($this));
+        }
+        return Str::snake($this->name);
+    }
 
-    abstract public function category() : string;
+    public function type() : string
+    {
+        return $this->type;
+    }
 
-    abstract public function passes() : bool;
-
-    abstract public function passedResponse() : array;
-
-    abstract public function failedResponse() : array;
+    public function category() : string
+    {
+        if (!isset($this->category)) {
+            return HealthCheckCategory::default();
+        }
+        return $this->category;
+    }
 
     public function respond() : array
     {
@@ -38,7 +63,7 @@ abstract class HealthTest
                 if ($this->category() === 'Security') {
                     $response['status'] = 'critical';
                 } else {
-                   	$response['status'] = 'recommended';
+                    $response['status'] = 'recommended';
                 }
             }
             if ('critical' === $response['status']) {

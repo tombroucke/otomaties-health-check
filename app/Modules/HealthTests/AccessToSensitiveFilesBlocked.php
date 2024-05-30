@@ -2,28 +2,19 @@
 
 namespace Otomaties\HealthCheck\Modules\HealthTests;
 
+use Otomaties\HealthCheck\Enums\HealthCheckCategory;
+
 class AccessToSensitiveFilesBlocked extends Abstracts\HealthTest implements Contracts\HealthTest
 {
-    public function name() : string
-    {
-        return 'access_sensitive_files_blocked';
-    }
+    protected string $type = 'async';
 
-    public function category() : string
-    {
-        return __('Security', 'otomaties-health-check');
-    }
-
-    public function type() : string
-    {
-        return 'async';
-    }
+    protected string $category = HealthCheckCategory::SECURITY;
 
     public function passes() : bool
     {
         $response = wp_remote_get(
             home_url('test.sql'),
-            ['sslverify' => otomatiesHealthCheck()->make('env') === 'production',]
+            ['sslverify' => otomatiesHealthCheck()->config('app.env') === 'production',]
         );
         return wp_remote_retrieve_response_code($response) === 403;
     }

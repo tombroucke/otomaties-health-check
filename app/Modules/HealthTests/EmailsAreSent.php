@@ -2,33 +2,32 @@
 
 namespace Otomaties\HealthCheck\Modules\HealthTests;
 
+use Otomaties\HealthCheck\Helpers\View;
+
 class EmailsAreSent extends Abstracts\HealthTest implements Contracts\HealthTest
 {
-    public function name() : string
-    {
-        return 'emails_are_sent';
-    }
-
-    public function category() : string
-    {
-        return __('Email', 'otomaties-health-check');
-    }
-
-    public function type() : string
-    {
-        return 'async';
-    }
+    protected string $type = 'async';
 
     public function passes() : bool
     {
-        $to = 'tom@tombroucke.be';
-        $subject = sprintf(__('Health check: Test email from %s', 'otomaties-health-check'), get_bloginfo('name'));
-        $message = __('Hi,', 'otomaties-health-check') . "\n\n";
-        $message .= __('This is a test email to check if the website can send emails.', 'otomaties-health-check') . "\n\n";
-        $currentUser = wp_get_current_user();
-        $message .= sprintf(__('This health check was triggered from %s by %s.', 'otomaties-health-check'), get_bloginfo('url'), $currentUser ? $currentUser->user_login : __('an unknown user', 'otomaties-health-check')) . "\n\n";
-        $message .= __('Kind regards', 'otomaties-health-check');
-        return wp_mail($to, $subject, $message);    
+        return wp_mail(
+            to: 'tom@tombroucke.be',
+            subject: sprintf(__('Health check: Test email from %s', 'otomaties-health-check'), get_bloginfo('name')),
+            message: otomatiesHealthCheck()
+                ->make(View::class)
+                ->return('test/email', [
+                    'currentUser' => wp_get_current_user()
+                ]),
+            headers: ['Content-Type: text/html; charset=UTF-8']
+        );
+    }
+
+    public function active() : bool
+    {
+        if (wp_doing_cron()) {
+            return false;
+        }
+        return parent::active();
     }
 
     public function passedResponse() : array

@@ -1,16 +1,20 @@
-<?php 
+<?php
 
 namespace Otomaties\HealthCheck;
 
 use Illuminate\Container\Container;
 use Otomaties\HealthCheck\Helpers\Config;
 use Otomaties\HealthCheck\Helpers\Loader;
-use Otomaties\HealthCheck\Modules\OtomatiesHealthTests;
+use Otomaties\HealthCheck\Modules\HealthTests;
+use Otomaties\HealthCheck\Modules\Notifier;
+use Otomaties\HealthCheck\Modules\DisableBackgroundUpdatesTest;
 
 class Plugin extends Container
 {
     private array $modules = [
-        OtomatiesHealthTests::class,
+        HealthTests::class,
+        Notifier::class,
+        DisableBackgroundUpdatesTest::class,
     ];
 
     public function __construct(
@@ -27,20 +31,17 @@ class Plugin extends Container
     public function initialize() : self
     {
         $this->loader->addAction('init', $this, 'loadTextDomain');
-
         $this->loadModules();
-
         return $this;
     }
 
-    private function loadModules() : self
+    private function loadModules() : void
     {
         collect($this->modules)
             ->each(function ($className) {
                 ($this->make($className))
                     ->init();
             });
-        return $this;
     }
 
     public function loadTextDomain() : void

@@ -4,30 +4,15 @@ namespace Otomaties\HealthCheck\Modules\HealthTests;
 
 class MollieTestMode extends Abstracts\HealthTest implements Contracts\HealthTest
 {
-    public function name() : string
-    {
-        return 'mollie_test_mode';
-    }
-
-    public function category() : string
-    {
-        return __('System', 'otomaties-health-check');
-    }
-
-    public function type() : string
-    {
-        return 'direct';
-    }
-
     public function passes() : bool
     {
-        return !otomatiesHealthCheck()->make('env') === 'production' || get_option('mollie-payments-for-woocommerce_test_mode_enabled') !== 'yes';
+        $testModeEnabled = get_option('mollie-payments-for-woocommerce_test_mode_enabled') !== 'yes';
+        return !otomatiesHealthCheck()->config('app.env') === 'production' || $testModeEnabled;
     }
 
     public function active() : bool
     {
-        if (!is_plugin_active('mollie-payments-for-woocommerce/mollie-payments-for-woocommerce.php'))
-        {
+        if (!is_plugin_active('mollie-payments-for-woocommerce/mollie-payments-for-woocommerce.php')) {
             return false;
         }
         return parent::active();
@@ -35,7 +20,10 @@ class MollieTestMode extends Abstracts\HealthTest implements Contracts\HealthTes
 
     public function passedResponse() : array
     {
-        $label = otomatiesHealthCheck()->make('env') === 'production' ? __('Mollie is in Live mode', 'otomaties-health-check') : __('Mollie is in test mode but the environment is not production', 'otomaties-health-check');
+        $label = otomatiesHealthCheck()->make('env') === 'production' ?
+            __('Mollie is in Live mode', 'otomaties-health-check') :
+            __('Mollie is in test mode but the environment is not production', 'otomaties-health-check');
+
         return array_merge($this->defaultResponse, [
             'label' => $label,
             'description' => sprintf(
@@ -54,7 +42,11 @@ class MollieTestMode extends Abstracts\HealthTest implements Contracts\HealthTes
                 '<p>%s</p>',
                 __('Mollie is in test mode', 'otomaties-health-check')
             ),
-            'actions' => sprintf('<a href="%s" target="_blank">%s</a>', admin_url('admin.php?page=wc-settings&tab=mollie_settings'), __('Disable test mode', 'otomaties-health-check'))
+            'actions' => sprintf(
+                '<a href="%s" target="_blank">%s</a>',
+                admin_url('admin.php?page=wc-settings&tab=mollie_settings'),
+                __('Disable test mode', 'otomaties-health-check')
+            )
         ]);
     }
 }

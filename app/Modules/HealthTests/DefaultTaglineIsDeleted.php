@@ -2,22 +2,11 @@
 
 namespace Otomaties\HealthCheck\Modules\HealthTests;
 
+use Otomaties\HealthCheck\Enums\HealthCheckCategory;
+
 class DefaultTaglineIsDeleted extends Abstracts\HealthTest implements Contracts\HealthTest
 {
-    public function name() : string
-    {
-        return 'tagline_is_deleted';
-    }
-
-    public function category() : string
-    {
-        return __('SEO', 'otomaties-health-check');
-    }
-
-    public function type() : string
-    {
-        return 'direct';
-    }
+    protected string $category = HealthCheckCategory::SEO;
 
     public function passes() : bool
     {
@@ -42,9 +31,13 @@ class DefaultTaglineIsDeleted extends Abstracts\HealthTest implements Contracts\
             'label' => __('The default tagline has not been changed', 'otomaties-health-check'),
             'description' => sprintf(
                 '<p>%s</p>',
-                __('The default tagline is still active on this website. Change the tagline to something more meaningful or consider removing the tagline.', 'otomaties-health-check')
+                __('The default tagline is still active on this website. Change the tagline to something more meaningful or consider removing the tagline.', 'otomaties-health-check') // phpcs:ignore Generic.Files.LineLength.TooLong
             ),
-            'actions' => sprintf('<a href="%s" target="_blank">%s</a>', admin_url('options-general.php'), __('Change the tagline', 'otomaties-health-check'))
+            'actions' => sprintf(
+                '<a href="%s" target="_blank">%s</a>',
+                admin_url('options-general.php'),
+                __('Change the tagline', 'otomaties-health-check')
+            )
         ]);
     }
 }
