@@ -28,7 +28,7 @@ class Notifier extends Abstracts\Module
     public function send($results) : bool
     {
         return wp_mail(
-            to: 'tom@tombroucke.be',
+            to: otomatiesHealthCheck()->config('app.email'),
             subject: sprintf(__('Critical errors found on %s', 'otomaties-health-check'), get_bloginfo('name')),
             message: otomatiesHealthCheck()->make(View::class)->return('notifications/critical-errors', [
                 'results' => $results,

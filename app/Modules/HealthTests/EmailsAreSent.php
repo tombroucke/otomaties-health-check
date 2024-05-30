@@ -11,7 +11,7 @@ class EmailsAreSent extends Abstracts\HealthTest implements Contracts\HealthTest
     public function passes() : bool
     {
         return wp_mail(
-            to: 'tom@tombroucke.be',
+            to: otomatiesHealthCheck()->config('app.email'),
             subject: sprintf(__('Health check: Test email from %s', 'otomaties-health-check'), get_bloginfo('name')),
             message: otomatiesHealthCheck()
                 ->make(View::class)
