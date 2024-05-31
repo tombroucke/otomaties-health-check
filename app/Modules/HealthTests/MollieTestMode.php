@@ -20,7 +20,7 @@ class MollieTestMode extends Abstracts\HealthTest implements Contracts\HealthTes
 
     public function passedResponse() : array
     {
-        $label = otomatiesHealthCheck()->make('env') === 'production' ?
+        $label = otomatiesHealthCheck()->config('app.env') === 'production' ?
             __('Mollie is in Live mode', 'otomaties-health-check') :
             __('Mollie is in test mode but the environment is not production', 'otomaties-health-check');
 

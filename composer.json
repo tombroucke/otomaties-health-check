@@ -15,7 +15,8 @@
     "require": {
         "php": ">=8.0",
         "illuminate/container": "*",
-        "illuminate/support": "*"
+        "illuminate/support": "*",
+		"illuminate/config": "*"
     },
     "scripts": {
         "test": [
