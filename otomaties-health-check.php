@@ -8,7 +8,7 @@ use Otomaties\HealthCheck\Helpers\Loader;
 /**
  * Plugin Name:       Otomaties Health Check
  * Description:       Add a health check to check for common issues
- * Version:           1.2.0
+ * Version:           1.2.1
  * Author:            Tom Broucke
  * Author URI:        https://tombroucke.be/
  * License:           GPL-2.0+
