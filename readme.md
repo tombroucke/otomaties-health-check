@@ -1,3 +1,6 @@
+> [!WARNING]
+> This repo has been archived. Functionality has been integrated into [Otomaties Core](https://github.com/tombroucke/otomaties-core)
+
 # Otomaties Health Check
 
 ## Installation
